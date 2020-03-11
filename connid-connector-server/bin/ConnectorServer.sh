@@ -20,6 +20,7 @@
 # "Portions Copyrighted [year] [name of copyright owner]"
 # ====================
 #
+# Modified BCV solutions. See CHANGELOG.md.
 
 CLASSPATH=lib/framework/connector-framework.jar:\
 lib/framework/connector-framework-internal.jar:\
@@ -32,22 +33,8 @@ lib/jackson-core-2.9.8.jar\
 lib/jackson-databind-2.9.8\
 lib/jackson-annotations-2.9.8.jar
 
+JAVA_OPTS="$JAVA_OPTS -Djava.util.logging.config.file=conf/logging.properties"
+
 # if you want to use winrm
-java -Xmx500m -Djava.util.logging.config.file=conf/logging.properties -classpath "$CLASSPATH" \
- org.identityconnectors.framework.server.Main "$@"  
-
-# Debug + console log
-# java -Xmx500m -Xdebug -Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=n -Dlogback.configurationFile=lib/logback.xml -Djava.util.logging.config.file=conf/logging.properties -classpath "$CLASSPATH" \
-# org.identityconnectors.framework.server.Main "$@"
-
-# If you need to use AD over https
-#java -Xmx500m -Djava.util.logging.config.file=conf/logging.properties -Djavax.net.ssl.keyStore=/opt/czechidm/etc/truststore.jks -Djavax.net.ssl.keyStorePassword=KEEPASS -Djavax.net.ssl.keyStoreType=JKS \
-#-Djavax.net.ssl.trustStore=/opt/czechidm/etc/truststore.jks -Djavax.net.ssl.trustStorePassword=KEEPASS -classpath "$CLASSPATH" \
-# org.identityconnectors.framework.server.Main "$@"
-
-# Debug + console log
-# java -Xmx500m -Xdebug -Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=n -Dlogback.configurationFile=lib/logback.xml -Djava.util.logging.config.file=conf/logging.properties \
-# -Djavax.net.ssl.keyStore=/opt/czechidm/etc/truststore.jks -Djavax.net.ssl.keyStorePassword=KEEPASS -Djavax.net.ssl.keyStoreType=JKS \
-# -Djavax.net.ssl.trustStore=/opt/czechidm/etc/truststore.jks -Djavax.net.ssl.trustStorePassword=KEEPASS -classpath "$CLASSPATH" \
-# org.identityconnectors.framework.server.Main "$@"
-
+java $JAVA_OPTS -classpath "$CLASSPATH" \
+  org.identityconnectors.framework.server.Main "$@" -properties conf/connectorserver.properties

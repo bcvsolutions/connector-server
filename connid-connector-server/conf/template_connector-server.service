@@ -1,0 +1,14 @@
+[Unit]
+Description=Java Connector Server Service
+After=network-online.target
+
+[Service]
+User=connector-server
+Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom -Xmx500m -Djavax.net.ssl.trustStore=/opt/connector-server/connid-connector-server/certs/truststore.jks -Djavax.net.ssl.trustStorePassword=SET_SOME_PASSWORD_HERE'
+
+WorkingDirectory=/opt/connector-server/connid-connector-server
+ExecStart=/bin/bash /opt/connector-server/connid-connector-server/bin/ConnectorServer.sh -run
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
